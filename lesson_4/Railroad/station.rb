@@ -16,15 +16,18 @@ class Station
   end
 
   def departure_forward(route, train)
-    train.forward(route)
+    train.forward(route) if train.current_station(route) == self
   end
 
   def departure_back(route, train)
-    train.back(route)
+    train.back(route) if train.current_station(route) == self
   end
 
-  def quantity_by_type
+  def quantity_passenger
     @trains.count { |train| train.type == 'Passenger' }
+  end
+
+  def quantity_cargo
     @trains.count { |train| train.type == 'Cargo' }
   end
 end

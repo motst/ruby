@@ -35,28 +35,28 @@ class Train
   end
 
   def current_station(route)
-    route.stations[@current_index].trains
+    route.stations[@current_index]
   end
 
   def previous_station(route)
-    route.stations[@current_index - 1].trains if @current_index > 0
+    route.stations[@current_index - 1] if @current_index > 0
   end
 
   def next_station(route)
-    route.stations[@current_index + 1].trains
+    route.stations[@current_index + 1]
   end
 
   def forward(route)
-    current_station(route).delete(self)
-    next_station(route) << self
+    route.stations[@current_index].trains.delete(self)
     @current_index +=1
+    route.stations[@current_index].trains << self
   end
 
   def back(route)
     if @current_index > 0
-      current_station(route).delete(self)
-      previous_station(route) << self
+      route.stations[@current_index].trains.delete(self)
       @current_index -=1
+      route.stations[@current_index].trains << self
     end
   end
 end
