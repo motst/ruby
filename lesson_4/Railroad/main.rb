@@ -85,10 +85,10 @@ def menu(railroad)
               train.attach(wagon)
             when 5
               railroad.list(railroad.all_wagons)
-              puts 'Choose the of wagon to detach from the train'
+              puts 'Choose the wagon to detach from the train'
               wagon = railroad.all_wagons[gets.chomp.to_i - 1]
               railroad.list(railroad.all_trains)
-              puts 'Choose the of train from which you want to detach the selected wagon'
+              puts 'Choose the train from which you want to detach the selected wagon'
               train = railroad.all_trains[gets.chomp.to_i - 1]
               train.detach(wagon)
             when 6
