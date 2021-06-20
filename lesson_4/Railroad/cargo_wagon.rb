@@ -1,8 +1,8 @@
 class CargoWagon
   attr_reader :type
 
-  def initialize(railroad, type = 'Cargo')
-    @type = type
+  def initialize(railroad)
+    @type = 'Cargo'
     railroad.all_wagons << self
   end
 end
