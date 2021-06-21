@@ -43,74 +43,64 @@ def menu(railroad)
           gets.chomp.to_i == 1 ? PassengerWagon.new(railroad) : CargoWagon.new(railroad)
         end
     when 2
-      puts 'Enter 1 to add a station to the route'
-      puts 'Enter 2 to remove a station from the route'
-      puts 'Enter 3 to assign a route for the train'
-      puts 'Enter 4 to attach a wagon to the train'
-      puts 'Enter 5 to dettach a wagon from the train'
-      puts 'Enter 6 to send the train forward'
-      puts 'Enter 7 to send the train back'
+      puts 'Enter 1 to add/remove a station to/from the route'
+      puts 'Enter 2 to assign a route for the train or move train on the route'
+      puts 'Enter 3 to attach/detach a wagon to/from the train'
         case gets.chomp.to_i
         when 1
-          railroad.list(railroad.all_stations)
-          puts 'Choose the station to add to the route'
-          station = railroad.all_stations[gets.chomp.to_i - 1]
-          railroad.list(railroad.all_routes)
-          puts 'Choose the route you want to add the selected station to'
-          route = railroad.all_routes[gets.chomp.to_i - 1]
-          route.add(station)
+          self.station(railroad)
         when 2
-          railroad.list(railroad.all_stations)
-          puts 'Choose the station to remove from the route'
-          station = railroad.all_stations[gets.chomp.to_i - 1]
-          railroad.list(railroad.all_routes)
-          puts 'Choose the route you want to remove the selected station from'
-          route = railroad.all_routes[gets.chomp.to_i - 1]
-          route.remove(station)
+          self.train(railroad)
         when 3
-          railroad.list(railroad.all_trains)
-          puts 'Choose the train to assign the route to'
-          train = railroad.all_trains[gets.chomp.to_i - 1]
-          railroad.list(railroad.all_routes)
-          puts 'Choose the route you want to assign to the selected train'
-          route = railroad.all_routes[gets.chomp.to_i - 1]
-          train.purpose(route)
-        when 4
-          railroad.list(railroad.all_wagons)
-          puts 'Choose the wagon to add to the train'
-          wagon = railroad.all_wagons[gets.chomp.to_i - 1]
-          railroad.list(railroad.all_trains)
-          puts 'Choose the train to which you want to add the selected wagon'
-          train = railroad.all_trains[gets.chomp.to_i - 1]
-          train.attach(wagon)
-        when 5
-          railroad.list(railroad.all_wagons)
-          puts 'Choose the wagon to detach from the train'
-          wagon = railroad.all_wagons[gets.chomp.to_i - 1]
-          railroad.list(railroad.all_trains)
-          puts 'Choose the train from which you want to detach the selected wagon'
-          train = railroad.all_trains[gets.chomp.to_i - 1]
-          train.detach(wagon)
-        when 6
-          railroad.list(railroad.all_trains)
-          puts 'Choose the train to send forward'
-          train = railroad.all_trains[gets.chomp.to_i - 1]
-          railroad.list(railroad.all_routes)
-          puts 'Choose the route you want to send the train to'
-          route = railroad.all_routes[gets.chomp.to_i - 1]
-          train.forward(route)
-        when 7
-          railroad.list(railroad.all_trains)
-          puts 'Choose the train to send back'
-          train = railroad.all_trains[gets.chomp.to_i - 1]
-          railroad.list(railroad.all_routes)
-          puts 'Choose the route you want to send the train to'
-          route = railroad.all_routes[gets.chomp.to_i - 1]
-          train.back(route)
+          self.wagon(railroad)
         end
     when 3
       railroad.list(railroad.all_stations)
       puts 'Thats all stations list. Choose a station to view a list of all trains on it'
       railroad.all_stations[gets.chomp.to_i - 1].trains
     end
+end
+
+def self.station(railroad)
+  railroad.list(railroad.all_stations)
+  puts 'Choose the station for operation'
+  station = railroad.all_stations[gets.chomp.to_i - 1]
+  railroad.list(railroad.all_routes)
+  puts 'Choose the route for operation'
+  route = railroad.all_routes[gets.chomp.to_i - 1]
+  puts 'Enter 1 to add a station to the route'
+  puts 'Enter 2 to remove a station from the route'
+  gets.chomp.to_i == 1 ? route.add(station) : route.remove(station)
+end
+
+def self.train(railroad)
+  railroad.list(railroad.all_trains)
+  puts 'Choose the train for operation'
+  train = railroad.all_trains[gets.chomp.to_i - 1]
+  railroad.list(railroad.all_routes)
+  puts 'Choose the route for operation'
+  route = railroad.all_routes[gets.chomp.to_i - 1]
+  puts 'Enter 1 to assign a route for the train'
+  puts 'Enter 2 to send the train forward'
+  puts 'Enter 3 to send the train back'
+    case gets.chomp.to_i
+    when 1
+      train.purpose(route)
+    when 2
+      train.forward(route)
+    when 3
+      train.back(route)
+    end
+end
+
+def self.wagon(railroad)
+  railroad.list(railroad.all_wagons)
+  puts 'Choose the wagon for operation'
+  wagon = railroad.all_wagons[gets.chomp.to_i - 1]
+  railroad.list(railroad.all_trains)
+  puts 'Choose the train for operation'
+  train = railroad.all_trains[gets.chomp.to_i - 1]
+  puts 'Enter 1 to attach a wagon to the train'
+  puts 'Enter 2 to dettach a wagon from the train'
+  gets.chomp.to_i == 1 ? train.attach(wagon) : train.detach(wagon)
 end
