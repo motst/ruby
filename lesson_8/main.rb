@@ -243,7 +243,7 @@ class Interface
     end
     @all_stations.each do |station|
       puts "Station: #{station.name}"
-      puts station.call(train_block)
+      puts station.each_train(train_block)
       puts
     end
   end
@@ -260,7 +260,7 @@ class Interface
     end
     train_block = proc do |train|
       puts "Train: #{train.number}"
-      train.call(wagon_block)
+      train.each_wagon(wagon_block)
       puts
     end
     @all_stations.each do |station|
