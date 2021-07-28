@@ -51,7 +51,9 @@ class Train
   end
 
   def previous_station(route)
-    route.stations[@current_index - 1] if @current_index.positive?
+    return unless @current_index.positive?
+
+    route.stations[@current_index - 1]
   end
 
   def next_station(route)
@@ -65,11 +67,11 @@ class Train
   end
 
   def back(route)
-    if @current_index.positive?
-      route.stations[@current_index].trains.delete(self)
-      @current_index -= 1
-      route.stations[@current_index].trains << self
-    end
+    return unless @current_index.positive?
+
+    route.stations[@current_index].trains.delete(self)
+    @current_index -= 1
+    route.stations[@current_index].trains << self
   end
 
   def each_wagon(wagon_block)

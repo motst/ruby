@@ -33,6 +33,7 @@ class Interface
     end
   end
 
+  # rubocop: disable Metrics/AbcSize
   def menu
     loop do
       puts 'Enter 1 to create a station, route, train or wagon'
@@ -132,6 +133,7 @@ class Interface
     @all_trains << (gets.chomp.to_i == 1 ? PassengerTrain.new(number) : CargoTrain.new(number))
     puts 'The train is created'
   end
+  # rubocop: enable Metrics/AbcSize
 
   def create_wagon
     puts '1: Passenger'
@@ -248,6 +250,7 @@ class Interface
     end
   end
 
+  # rubocop: disable Metrics/AbcSize
   def wagons_every_station
     wagon_block = proc do |wagon|
       print "number: #{wagon.number}"
@@ -265,12 +268,20 @@ class Interface
     end
     @all_stations.each do |station|
       puts "Station: #{station.name}"
-      puts station.call(train_block)
+      puts station.each_train(train_block)
       puts
     end
   end
+  # rubocop: enable Metrics/AbcSize
 end
 
 interface = Interface.new
-interface.seeds
+interface.station_new
+interface.route_new
+interface.train_new
+interface.wagon_new
+interface.station_seeds
+interface.train_seeds
+interface.move_seeds
+interface.wagon_seeds
 interface.menu
