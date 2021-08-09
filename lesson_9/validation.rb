@@ -16,8 +16,19 @@ module Validation
   end
 
   module InstanceMethods
+    def presence_validation(value, _choosed_attr)
+      raise "#{value} can't be empty" if value.nil?
+    end
+
+    def format_validation(value, choosed_attr)
+      raise "#{value} has invalid format" if value !~ choosed_attr[2]
+    end
+
+    def type_validation(value, choosed_attr)
+      raise "Type doesn't match the specified class" if value.class != choosed_attr[2]
+    end
+
     # rubocop: disable Metrics/AbcSize
-    # rubocop: disable Metrics/PerceivedComplexity
     def validate!
       attrs = {}
       attrs = { name: @name } if instance_of?(Station)
@@ -25,15 +36,12 @@ module Validation
       attrs = { start: @stations[0], finish: @stations[-1] } if instance_of?(Route)
       attrs.each do |attr, value|
         choosed_attrs = self.class.validations.select { |attr_val| attr_val[0] == attr }
-        choosed_attrs.each do |option|
-          raise "#{value} can't be empty!" if option[1] == :presence && value.nil?
-          raise "#{value} has invalid format!" if option[1] == :format && value !~ option[2]
-          raise "Type doesn't match the specified class!" if option[1] == :type && value.class != option[2]
+        choosed_attrs.each do |choosed_attr|
+          send("#{choosed_attr[1]}_validation", value, choosed_attr)
         end
       end
     end
     # rubocop: enable Metrics/AbcSize
-    # rubocop: enable Metrics/PerceivedComplexity
 
     def valid?
       validate!
