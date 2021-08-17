@@ -8,7 +8,7 @@ class Player < Hand
     when 2
       $main.open_cards
     when 3
-      $main.dealer.deals_cards if @cards.length < 3
+      $main.dealer.deals_cards(self) if @cards.length < 3
       $main.dealer.turn
     end
   end
