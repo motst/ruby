@@ -1,36 +1,25 @@
 # frozen_string_literal: true
 
-require_relative 'scoring'
-
-class Dealer
-  include Scoring
-
-  attr_accessor :bankroll, :cards
-
-  def initialize
-    @bankroll = 100
-    @cards = {}
+class Dealer < Hand
+  def shuffle_cards
+    shuffled = $main.deck.cards.to_a.shuffle.flatten(1)
+    $main.deck.cards.replace(Hash[*shuffled])
   end
 
-  def shuffle_cards(deck)
-    shuffled = deck.cards.to_a.shuffle.flatten(1)
-    deck.cards.replace(Hash[*shuffled])
-  end
-
-  def deals_cards(participant, deck)
-    top_card = deck.cards.to_a.last
+  def deals_cards(participant)
+    top_card = $main.deck.cards.to_a.last
     participant.cards.merge!(Hash[*top_card])
-    deck.cards.delete_if { |value, _points| value == top_card[0] }
+    $main.deck.cards.delete_if { |value, _points| value == top_card[0] }
   end
 
-  def turn(game, player, deck)
+  def turn
+    $main.open_cards if $main.player.cards.length == 3 && cards.length == 3
     scoring_points
-    game.open_cards if player.cards.length == 3 && cards.length == 3
     if @points >= 17
-      player.turn(game, self, deck)
+      $main.menu
     elsif @points < 17
-      deals_cards(self, deck) if @cards.length < 3
-      player.turn(game, self, deck)
+      deals_cards(self) if @cards.length < 3
+      $main.menu
     end
   end
 end

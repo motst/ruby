@@ -19,5 +19,8 @@ Metrics/PerceivedComplexity:
 Metrics/AbcSize:
   Enabled: false
 
+Style/GlobalVars:
+  Enabled: false
+
 AllCops:
   NewCops: enable
