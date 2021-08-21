@@ -1,0 +1,26 @@
+Style/Documentation:
+  Enabled: false
+
+Metrics/ClassLength:
+  Max: 236
+
+Metrics/CyclomaticComplexity:
+  Max: 20
+
+Metrics/MethodLength:
+  Max: 64
+
+Metrics/BlockLength:
+  Max: 62
+
+Metrics/PerceivedComplexity:
+  Max: 10
+
+Metrics/AbcSize:
+  Enabled: false
+
+Style/GlobalVars:
+  Enabled: false
+
+AllCops:
+  NewCops: enable
